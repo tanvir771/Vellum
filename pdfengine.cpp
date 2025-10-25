@@ -1,10 +1,13 @@
 #include "pdfengine.h"
 #include <QDebug>
 #include <chrono>
+#include <QUrl>
+#include <QString>
 
 PdfEngine::PdfEngine(QObject* parent) : QObject(parent) {}
 
-bool PdfEngine::load(const QString& path) {
+bool PdfEngine::load(const QUrl& url) {
+    QString path = url.toLocalFile();
     qDebug() << "Loading PDF from:" << path;
 
     // beat 0.0295742s

@@ -13,7 +13,7 @@ class PdfEngine : public QObject {
 public:
     explicit PdfEngine(QObject* parent = nullptr);
 
-    Q_INVOKABLE bool load(const QString& path);
+    Q_INVOKABLE bool load(const QUrl& url);
 
     poppler::document* doc() const { return doc_.get(); }
     int pageCount() const { return doc_ ? doc_->pages() : 0; }

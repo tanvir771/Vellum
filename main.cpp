@@ -26,9 +26,9 @@ int main(int argc, char *argv[])
     qInfo() << "main: adding image provider";
     engine.addImageProvider("pdf", provider);
 
-    qInfo() << "main: calling backend.load(...)";
-    bool ok = backend.load("F:/Qt_Projects/PDFBasic/PDFBasic/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/sample.pdf");
-    qInfo() << "main: backend.load returned" << ok;
+    //qInfo() << "main: calling backend.load(...)";
+    //bool ok = backend.load("F:/Qt_Projects/PDFBasic/PDFBasic/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/sample.pdf");
+    //qInfo() << "main: backend.load returned" << ok;
 
     qInfo() << "main: setting context property PDF";
     engine.rootContext()->setContextProperty("PDF", &backend);

@@ -1,11 +1,13 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
 
 ApplicationWindow {
     width: 800
     height: 600
     visible: true
     title: "PDF Viewer - Multiple Pages"
+
 
     Column {
         anchors.fill: parent
@@ -33,6 +35,22 @@ ApplicationWindow {
                 text: "Next"
                 enabled: currentPage < totalPages - 1
                 onClicked: currentPage++
+            }
+
+            FileDialog {
+                id: fileDialog
+                title: "Open PDF"
+                nameFilters: ["PDF files (*.pdf)"]
+                onAccepted: {
+                    PDF.load(Qt.resolvedUrl(fileDialog.selectedFile))
+                    currentPage = -1 // force a redraw
+                    currentPage = 0
+                }
+            }
+
+            Button {
+                text: "Open PDF"
+                onClicked: fileDialog.open()
             }
         }
 
@@ -63,6 +81,32 @@ ApplicationWindow {
         }
     }
 
+    // Side panel for thumbnails
+    Rectangle {
+        width: 120
+        color: "#eeeeee"
+        ListView {
+            id: thumbnailList
+            anchors.fill: parent
+            model: totalPages
+            delegate: Item {
+                width: parent.width
+                height: 80
+                Image {
+                    source: "image://pdf/page" + index
+                    width: parent.width - 10
+                    height: parent.height - 10
+                    fillMode: Image.PreserveAspectFit
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: currentPage = index
+                }
+            }
+        }
+    }
+
+
     property int currentPage: 0
-    property int totalPages: PDF && PDF.pageCount ? PDF.pageCount : 1
+    property int totalPages: PDF && PDF.pageCount > 0 ? PDF.pageCount : 1
 }
